@@ -1,0 +1,711 @@
+:root {
+    --black: #000000;
+    --gold: #c5a059;
+    --side-padding: 10%; 
+    --nav-height: 70px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--black);
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    height: var(--nav-height);
+    background-color: var(--black);
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+}
+
+.nav-content {
+    width: 100%;
+    padding: 0 var(--side-padding);
+}
+
+.logo { height: 35px; width: auto; display: block; }
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - var(--nav-height));
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+/* --- ESTA ES LA CAPA MAESTRA --- */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Desktop: Gradiente horizontal que tapa fondo y cartas */
+    background: linear-gradient(90deg, 
+        rgba(0,0,0,1) 0%, 
+        rgba(0,0,0,0.8) 25%, 
+        rgba(0,0,0,0.4) 50%, 
+        transparent 100%);
+    z-index: 20; /* Por encima de cartas (10) */
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 100; /* Por encima de la sombra (20) */
+    padding: 0 var(--side-padding);
+    pointer-events: none;
+}
+
+.main-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 15px;
+}
+
+.sub-title {
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-style: italic;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+    max-width: 600px;
+}
+
+/* --- CARTAS --- */
+.tarot-card {
+    position: absolute;
+    height: 320px;
+    width: auto;
+    z-index: 10; /* Debajo de la sombra */
+    opacity: 0;
+    filter: drop-shadow(0 15px 35px rgba(0,0,0,0.9));
+    will-change: transform, opacity;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+    :root { --side-padding: 8%; }
+
+    .hero {
+        align-items: flex-start;
+        padding-top: 100px;
+    }
+
+    .hero-overlay {
+        /* Mobile: Gradiente vertical largo e intenso */
+        background: linear-gradient(180deg, 
+            rgba(0,0,0,1) 0%, 
+            rgba(0,0,0,0.95) 20%, 
+            rgba(0,0,0,0.7) 50%, 
+            rgba(0,0,0,0.3) 80%, 
+            transparent 100%);
+    }
+
+    .main-title { font-size: 2.2rem; }
+    .sub-title { font-size: 1.25rem; }
+    .tarot-card { height: 190px; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- REDISEÑO BIOGRAFÍA --- */
+.bio-section {
+    background-color: #b8824e;
+    padding: 120px var(--side-padding);
+    color: #000000;
+    display: block;
+    position: relative;
+    z-index: 50;
+}
+
+.bio-container {
+    max-width: 750px; /* Más angosto para que las líneas de texto sean más cortas y fáciles de leer */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.bio-icon {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    opacity: 0.6;
+}
+
+.bio-name {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.bio-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 50px;
+    opacity: 0.8;
+}
+
+.bio-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; /* Texto más grande para lectura fluida */
+    line-height: 1.6;
+    text-align: center; /* Centrado moderno */
+}
+
+.bio-body p {
+    margin-bottom: 30px;
+}
+
+/* Párrafo destacado */
+.bio-focus {
+    font-weight: 600;
+    font-size: 1.5rem;
+    padding: 20px 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.bio-signature {
+    margin-top: 40px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    opacity: 0.5;
+}
+
+/* --- AJUSTE MOBILE --- */
+@media (max-width: 768px) {
+    .bio-section {
+        padding: 80px 8%;
+    }
+
+    .bio-name {
+        font-size: 2.5rem;
+    }
+
+    .bio-body {
+        font-size: 1.25rem;
+        text-align: left; /* En móvil leer centrado es cansador, pasamos a la izquierda */
+    }
+    
+    .bio-tagline {
+        font-size: 1.1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* --- SECCIÓN SERVICIOS --- */
+.servicios-section {
+    background-color: #1c1c1b;
+    padding: 120px var(--side-padding);
+    color: white;
+    position: relative;
+    z-index: 60;
+}
+
+.servicios-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.servicios-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.servicios-pre {
+    font-family: 'Cormorant Garamond', serif;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+.servicios-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    margin-top: 10px;
+}
+
+.servicios-divider {
+    width: 60px;
+    height: 1px;
+    background-color: var(--gold);
+    margin: 20px auto;
+}
+
+/* Grilla de Servicios */
+.servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.servicio-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    padding: 40px;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.servicio-card:hover {
+    border-color: var(--gold);
+    background: rgba(197, 160, 89, 0.05);
+    transform: translateY(-5px);
+}
+
+.servicio-info h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--gold);
+}
+
+.servicio-info p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin-bottom: 30px;
+}
+
+/* Etiquetas de tiempo/modalidad */
+.tag {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.tag.gold {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* --- MOBILE SERVICIOS --- */
+@media (max-width: 768px) {
+    .servicios-section {
+        padding: 80px 8%;
+    }
+    
+    .servicios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .servicio-card {
+        padding: 30px;
+    }
+}
+
+
+/* --- (Mantenemos todo el CSS de servicios anterior y agregamos esto) --- */
+
+.servicios-modalidad-info {
+    margin-top: 60px;
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.servicios-modalidad-info p {
+    font-size: 1.3rem;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.servicios-modalidad-info strong {
+    color: var(--gold);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin: 0 5px;
+}
+
+.servicios-modalidad-info .exclusivo {
+    display: block;
+    margin-top: 10px;
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.servicios-modalidad-info .icon {
+    color: var(--gold);
+    margin-right: 10px;
+    font-style: normal;
+}
+
+/* Ajuste mobile para la nota */
+@media (max-width: 768px) {
+    .servicios-modalidad-info {
+        margin-top: 40px;
+        padding: 20px 10px;
+    }
+    
+    .servicios-modalidad-info p {
+        font-size: 1.1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- SECCIÓN CONTACTO (FONDO CLARO) --- */
+.contacto-section {
+    background-color: #e5c4ad;
+    padding: 120px var(--side-padding);
+    color: #1a1a1a;
+    display: block;
+    position: relative;
+    z-index: 70;
+}
+
+.contacto-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contacto-header {
+    margin-bottom: 60px;
+}
+
+.contacto-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.contacto-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Grilla de contacto */
+.contacto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.contacto-box {
+    background: rgba(0, 0, 0, 0.03); /* Un sombreado muy sutil */
+    padding: 50px 30px;
+    border: 1px dashed rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.contacto-label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* BOTÓN DE ACCIÓN WHATSAPP */
+.whatsapp-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: #1a1a1a;
+    color: #e5c4ad;
+    padding: 20px 40px;
+    border-radius: 4px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid #1a1a1a;
+    width: 100%;
+    max-width: 320px;
+}
+
+.whatsapp-action-btn:hover {
+    background-color: transparent;
+    color: #1a1a1a;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.whatsapp-action-btn .number {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.whatsapp-action-btn .action-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 500;
+}
+
+.whatsapp-sub, .pago-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    margin-top: 20px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* Info de Países y Pagos */
+.paises-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+    line-height: 1.3;
+}
+
+.astropay-tag {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 2px solid #1a1a1a;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* FOOTER */
+.contacto-footer {
+    margin-top: 100px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    opacity: 0.6;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 40px;
+}
+
+.contacto-footer p {
+    margin-bottom: 5px;
+}
+
+/* --- MOBILE CONTACTO --- */
+@media (max-width: 768px) {
+    .contacto-section {
+        padding: 80px 6%;
+    }
+
+    .contacto-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 20px;
+    }
+
+    .contacto-box {
+        padding: 40px 20px;
+    }
+
+    .contacto-title {
+        font-size: 2.5rem;
+    }
+
+    .whatsapp-action-btn {
+        padding: 18px 25px;
+    }
+
+    .whatsapp-action-btn .number {
+        font-size: 1.1rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- FOOTER FINAL CON LOGO BRICKELL --- */
+.main-footer {
+    background-color: #000000;
+    padding: 80px var(--side-padding) 40px;
+    color: #ffffff;
+    border-top: 1px solid rgba(197, 160, 89, 0.1);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.footer-logo {
+    height: 40px;
+    width: auto;
+}
+
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-nav a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--gold);
+}
+
+.instagram-link {
+    color: var(--gold);
+    transition: opacity 0.3s ease;
+}
+
+.instagram-link:hover {
+    opacity: 0.7;
+}
+
+/* --- PARTE INFERIOR --- */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.footer-legales p {
+    font-size: 0.9rem;
+    opacity: 0.5;
+    margin-bottom: 5px;
+}
+
+.footer-credits {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.footer-credits span {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.brickell-logo-img {
+    height: 25px; /* El alto solicitado */
+    width: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: grayscale(1) brightness(2); /* Lo hace blanco para que no desentone */
+}
+
+.brickell-logo-link:hover .brickell-logo-img {
+    transform: scale(1.05);
+    filter: grayscale(0) brightness(1.2); /* Recupera color al pasar el mouse */
+}
+
+/* --- MOBILE FOOTER --- */
+@media (max-width: 768px) {
+    .main-footer {
+        padding: 60px 8% 30px;
+    }
+
+    .footer-brand {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .footer-credits {
+        align-items: center;
+    }
+}

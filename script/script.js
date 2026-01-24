@@ -60,3 +60,72 @@ function lanzarCarta(card) {
 
     anim.onfinish = () => lanzarCarta(card);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+const DATABASE_PRECIOS = {
+    ARS: {
+        individual: [{t: "30 Min", p: "$ 27.000"}, {t: "40 Min", p: "$ 33.000"}, {t: "60 Min", p: "$ 43.000"}],
+        grupal: [{t: "30 Min", p: "$ 37.800"}, {t: "40 Min", p: "$ 46.200"}, {t: "60 Min", p: "$ 56.000"}],
+        numerologia: [{t: "C. Simple", p: "$ 65.000"}, {t: "C. Completa", p: "$ 85.000"}],
+        audio: [{t: "1 Pregunta", p: "$ 8.000"}, {t: "2 Preguntas", p: "$ 14.000"}, {t: "3 Preguntas", p: "$ 20.000"}],
+        eventos: [{t: "Por Hora", p: "$ 80.000"}]
+    },
+    USD: {
+        individual: [{t: "30 Min", p: "USD 30"}, {t: "40 Min", p: "USD 40"}, {t: "60 Min", p: "USD 50"}],
+        numerologia: [{t: "C. Simple", p: "USD 65"}, {t: "C. Completa", p: "USD 85"}],
+        audio: [{t: "1 Pregunta", p: "USD 10"}, {t: "2 Preguntas", p: "USD 18"}, {t: "3 Preguntas", p: "USD 25"}]
+    },
+    EUR: {
+        individual: [{t: "30 Min", p: "30 EUR"}, {t: "40 Min", p: "40 EUR"}, {t: "60 Min", p: "50 EUR"}],
+        numerologia: [{t: "C. Simple", p: "EUR 65"}, {t: "C. Completa", p: "EUR 85"}],
+        audio: [{t: "1 Pregunta", p: "EUR 10"}, {t: "2 Preguntas", p: "EUR 18"}, {t: "3 Preguntas", p: "EUR 25"}]
+    }
+};
+
+async function initServicios() {
+    try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        let region = 'USD';
+        if (data.country_code === 'AR') region = 'ARS';
+        else if (['ES', 'FR', 'IT', 'DE', 'PT'].includes(data.country_code)) region = 'EUR';
+        
+        renderizar(region);
+    } catch (e) { renderizar('USD'); }
+}
+
+function renderizar(reg) {
+    const db = DATABASE_PRECIOS[reg];
+    
+    // Inyectar precios en cada contenedor
+    const fill = (id, lista) => {
+        const el = document.getElementById(id);
+        if(!lista) return;
+        el.innerHTML = lista.map(item => `
+            <div class="precio-item"><span>${item.t}</span> <strong>${item.p}</strong></div>
+        `).join('');
+    };
+
+    fill('precios-individual', db.individual);
+    fill('precios-grupal', db.grupal);
+    fill('precios-numerologia', db.numerologia);
+    fill('precios-audio', db.audio);
+    fill('precios-eventos', db.eventos);
+
+    // Eliminar tarjetas que no pertenecen a la región
+    document.querySelectorAll('.servicio-card[data-region]').forEach(card => {
+        if (card.dataset.region !== reg) card.remove();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initServicios);

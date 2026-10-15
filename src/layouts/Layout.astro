@@ -1,0 +1,172 @@
+---
+import "../styles/global.css";
+import { SERVICIOS, VIGENCIA } from "../data/consultas";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Ana María Tarot | Lecturas de Tarot online por videollamada",
+  description =
+    "Lecturas de Tarot con más de treinta años de estudio. Sesiones individuales, para dos personas, tiradas por audio y eventos, por videollamada desde Argentina para todo el mundo de habla hispana.",
+} = Astro.props;
+
+const sitio = Astro.site ?? new URL("https://anamariatarot-sigma.vercel.app");
+const canonical = new URL(Astro.url.pathname, sitio);
+const imagen = new URL("/img/og.png", sitio).href;
+const instagram = "https://www.instagram.com/tarot.anamariatarot/";
+const whatsapp = "https://wa.me/5491154723434";
+
+// "$ 27.000" -> 27000, para que los precios del catálogo salgan como número
+const aNumero = (p: string) => Number(p.replace(/[^\d]/g, ""));
+
+// Datos estructurados: es lo que leen tanto Google para los resultados
+// enriquecidos como los buscadores con IA cuando resumen de qué va el sitio.
+const datos = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${sitio.href}#sitio`,
+      url: sitio.href,
+      name: "Ana María Tarot",
+      inLanguage: "es-AR",
+      publisher: { "@id": `${sitio.href}#negocio` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${sitio.href}#anamaria`,
+      name: "Ana María",
+      jobTitle: "Tarotista",
+      description:
+        "Tarotista con más de treinta años de estudio y práctica. Lee las cartas por videollamada para consultantes de habla hispana.",
+      knowsAbout: ["Tarot", "Lectura de cartas", "Guía espiritual"],
+      knowsLanguage: "es",
+      sameAs: [instagram],
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${sitio.href}#negocio`,
+      name: "Ana María Tarot",
+      description,
+      url: sitio.href,
+      image: imagen,
+      logo: new URL("/img/logo-dark.png", sitio).href,
+      founder: { "@id": `${sitio.href}#anamaria` },
+      employee: { "@id": `${sitio.href}#anamaria` },
+      priceRange: "$$",
+      currenciesAccepted: "ARS",
+      availableLanguage: { "@type": "Language", name: "Español" },
+      areaServed: [
+        { "@type": "Country", name: "Argentina" },
+        { "@type": "Place", name: "Consultas online para todo el mundo de habla hispana" },
+      ],
+      address: { "@type": "PostalAddress", addressCountry: "AR" },
+      sameAs: [instagram],
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "Reservas",
+        url: whatsapp,
+        telephone: "+54-9-11-5472-3434",
+        availableLanguage: "es",
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: `Consultas de Tarot · precios vigentes a ${VIGENCIA}`,
+        itemListElement: SERVICIOS.map((s) => ({
+          "@type": "OfferCatalog",
+          name: s.titulo,
+          description: s.desc,
+          itemListElement: s.precios.map((f) => ({
+            "@type": "Offer",
+            name: `${s.titulo} · ${f.t}`,
+            price: aNumero(f.p),
+            priceCurrency: "ARS",
+            availability: "https://schema.org/InStock",
+            url: `${sitio.href}#consultas`,
+            itemOffered: {
+              "@type": "Service",
+              name: `${s.titulo} · ${f.t}`,
+              serviceType: "Lectura de Tarot",
+              provider: { "@id": `${sitio.href}#negocio` },
+            },
+          })),
+        })),
+      },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="author" content="Ana María Tarot" />
+    <meta name="theme-color" content="#f4efe6" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ana María Tarot" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ana María Tarot · Nada se revela sin intención" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imagen} />
+
+    <link rel="icon" type="image/png" href="/img/ico.png" />
+    <link rel="apple-touch-icon" href="/img/ico.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(datos)} is:inline />
+  </head>
+
+  <body>
+    <slot />
+
+    <script>
+      // Los elementos marcados aparecen una sola vez, cuando asoman en pantalla.
+      // La clase que los oculta la agrega este script, así que si el JS no corre
+      // el contenido se ve igual.
+      const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const marcados = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+      if (!quieto && marcados.length && "IntersectionObserver" in window) {
+        document.body.classList.add("revelar");
+
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            entradas.forEach((e) => {
+              if (!e.isIntersecting) return;
+              e.target.classList.add("visible");
+              observador.unobserve(e.target);
+            });
+          },
+          { rootMargin: "0px 0px -12% 0px", threshold: 0.08 }
+        );
+
+        marcados.forEach((el) => observador.observe(el));
+      }
+    </script>
+  </body>
+</html>

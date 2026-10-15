@@ -1,0 +1,285 @@
+---
+const cards = [
+  { src: "/img/justicia.png", alt: "Carta de tarot: La Justicia", cls: "left" },
+  { src: "/img/estrella.png", alt: "Carta de tarot: La Estrella", cls: "center" },
+  { src: "/img/rueda.png", alt: "Carta de tarot: La Rueda de la Fortuna", cls: "right" },
+];
+---
+
+<section class="hero" id="inicio">
+  <div class="wrap inner">
+    <div class="copy">
+      {/* La volanta vive dentro del h1: se ve igual que suelta, pero así el
+          encabezado principal nombra de qué se trata, no sólo la frase. */}
+      <h1 class="titular">
+        <span class="kicker entra" style="--i: 0">Tarot · Lecturas online</span>
+        <span class="display title entra" style="--i: 1">
+          Nada se revela<br />sin intención.
+        </span>
+      </h1>
+
+      <p class="sub entra" style="--i: 2">
+        Una lectura para comprender lo que hoy te inquieta. Sesiones por videollamada,
+        con más de treinta años de estudio detrás.
+      </p>
+
+      <div class="actions entra" style="--i: 3">
+        <a class="btn" href="#contacto" data-pull>
+          Reservar una lectura
+        </a>
+      </div>
+    </div>
+
+    <div class="cards" aria-hidden="false">
+      {
+        cards.map((c) => (
+          <img class={`card ${c.cls}`} src={c.src} alt={c.alt} width="449" height="744" />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    /* svh: la altura sin la barra de Safari, para que no salte al contraerse */
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    /* los laterales los pone .wrap: acá sólo el aire vertical */
+    padding-block: calc(var(--nav-h) + 28px) clamp(40px, 7vh, 72px);
+    padding-bottom: max(clamp(40px, 7vh, 72px), env(safe-area-inset-bottom));
+    overflow: hidden;
+  }
+
+  /* halo cálido detrás de las cartas */
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 8%;
+    width: min(760px, 70vw);
+    aspect-ratio: 1;
+    translate: 0 -50%;
+    background: radial-gradient(
+      circle,
+      rgba(201, 164, 86, 0.16),
+      rgba(201, 164, 86, 0.05) 46%,
+      transparent 68%
+    );
+    pointer-events: none;
+  }
+
+  .inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: clamp(28px, 5vw, 76px);
+  }
+
+  .copy { max-width: 560px; }
+
+  /* el h1 es sólo un contenedor: lo que se ve son sus dos líneas */
+  .titular {
+    display: block;
+    font: inherit;
+    font-weight: 400;
+  }
+
+  .titular .kicker { display: block; }
+
+  .title {
+    display: block;
+    font-size: clamp(42px, 6.6vw, 88px);
+    margin: clamp(16px, 2vw, 24px) 0 clamp(18px, 2.2vw, 26px);
+  }
+
+  .sub {
+    font-size: clamp(15px, 1.25vw, 17.5px);
+    line-height: 1.68;
+    color: var(--ink-soft);
+    max-width: 40ch;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(18px, 2.4vw, 32px);
+    margin-top: clamp(28px, 3.4vw, 42px);
+  }
+
+  /* ---------- cartas ---------- */
+  .cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  /* en reposo las tres se montan un poco, como una baraja abierta en la mano */
+  .card.left { margin-right: calc(-1 * clamp(12px, 2.2vw, 34px)); }
+  .card.right { margin-left: calc(-1 * clamp(12px, 2.2vw, 34px)); }
+
+  .card {
+    width: clamp(86px, 13vw, 168px);
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 26px 60px -20px rgba(30, 20, 8, 0.45);
+    animation: float 7s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .card.left { rotate: -7deg; animation-delay: -1.2s, 0.26s; }
+  .card.center {
+    width: clamp(116px, 17.5vw, 224px);
+    z-index: 2;
+    animation-delay: -3.4s, 0.1s;
+  }
+  .card.right { rotate: 7deg; animation-delay: -5.1s, 0.42s; }
+
+  @keyframes float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -22px; }
+  }
+
+  /* ---------- entrada ----------
+     El texto sube escalonado y las cartas aparecen abriéndose desde el centro.
+     Las cartas llevan dos animaciones: el flotar (infinito) y la entrada (una vez),
+     con su propio retardo cada una. */
+  .entra {
+    animation: subir 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+    animation-delay: calc(0.12s * var(--i) + 0.1s);
+  }
+
+  @keyframes subir {
+    from { opacity: 0; translate: 0 20px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  .card {
+    animation-name: float, aparecer;
+    animation-duration: 7s, 1.1s;
+    animation-timing-function: ease-in-out, cubic-bezier(0.2, 0.9, 0.3, 1);
+    animation-iteration-count: infinite, 1;
+    animation-fill-mode: none, backwards;
+  }
+
+  @keyframes aparecer {
+    from { opacity: 0; scale: 0.82; }
+    to { opacity: 1; scale: 1; }
+  }
+
+  /* ---------- tensión: las cartas se inclinan hacia el botón ----------
+     El float usa la propiedad `translate`, así que la atracción va en
+     `transform` y las dos se componen sin pisarse. */
+  .card {
+    /* el pivote cae por debajo de la carta: al girar describe un arco,
+       como una baraja que se revolea desde la mano */
+    transform-origin: 32% 128%;
+    transition: transform 0.72s cubic-bezier(0.16, 1.28, 0.32, 1),
+      box-shadow 0.7s var(--ease);
+    transition-delay: 0s;
+  }
+
+  /* La tensión es sólo de escritorio: en táctil no hay hover y el gesto
+     no aporta nada. */
+  @media (min-width: 881px) {
+    /* El botón invoca a la carta del medio: se acerca girando.
+       Las de los costados sólo acompañan hacia abajo, sin correrse de lugar. */
+    .hero.is-pulling .card.center {
+      transform: translate(-58px, 80px) rotate(-19deg) scale(1.12);
+      box-shadow: 0 50px 80px -26px rgba(30, 20, 8, 0.62);
+      z-index: 4;
+    }
+    /* Justice se corre al hueco que deja The Star, para que el centro no quede vacío */
+    .hero.is-pulling .card.left {
+      transform: translate(var(--justice-x, 196px), 12px) rotate(4deg) scale(1.06);
+      box-shadow: 0 34px 64px -24px rgba(30, 20, 8, 0.5);
+      transition-delay: 0.08s;
+      z-index: 2;
+    }
+    .hero.is-pulling .card.right {
+      transform: translate(0, 18px) scale(0.985);
+      transition-delay: 0.14s;
+    }
+  }
+
+  /* ---------- mobile first: las cartas arriba, el texto abajo ---------- */
+  @media (max-width: 880px) {
+    .hero { padding-top: calc(var(--nav-h) + 12px); }
+
+    .inner {
+      grid-template-columns: 1fr;
+      gap: clamp(26px, 5vh, 46px);
+      justify-items: start;
+    }
+
+    .cards { order: -1; align-self: center; justify-self: center; }
+    .card { width: clamp(72px, 21vw, 112px); }
+    .card.center { width: clamp(96px, 28vw, 152px); }
+
+    .actions { gap: 20px; }
+    .actions .btn { flex: 1 1 auto; }
+
+  }
+
+  @media (max-width: 420px) {
+    .title { font-size: clamp(36px, 11vw, 46px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .entra { animation: none; transition: none; }
+    .hero.is-pulling .card { transform: none; }
+  }
+</style>
+
+<script>
+  // Tensión: las cartas se inclinan hacia el botón mientras lo tenés tocado.
+  // Con mouse se sostiene mientras el puntero está encima; en táctil, que no
+  // tiene hover, la tensión aparece al tocar y se suelta sola.
+  const hero = document.querySelector<HTMLElement>(".hero");
+  const trigger = document.querySelector<HTMLElement>("[data-pull]");
+  const center = document.querySelector<HTMLElement>(".card.center");
+  const izquierda = document.querySelector<HTMLElement>(".card.left");
+  let release: number | undefined;
+
+  // Cuánto tiene que correrse Justice para quedar centrada donde estaba The Star.
+  // offsetLeft/offsetWidth son de layout: no los altera ni el flotar ni la tensión.
+  const medir = () => {
+    if (!hero || !center || !izquierda) return;
+    const salto =
+      center.offsetLeft + center.offsetWidth / 2 -
+      (izquierda.offsetLeft + izquierda.offsetWidth / 2);
+    hero.style.setProperty("--justice-x", `${Math.round(salto)}px`);
+  };
+
+  medir();
+  window.addEventListener("resize", () => requestAnimationFrame(medir));
+
+  // Sólo con puntero fino: en táctil el gesto no existe y el estado queda pegado.
+  const conMouse = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  if (hero && trigger && conMouse.matches) {
+    const pull = () => {
+      window.clearTimeout(release);
+      hero.classList.add("is-pulling");
+    };
+    const loosen = () => {
+      window.clearTimeout(release);
+      release = window.setTimeout(() => hero.classList.remove("is-pulling"), 0);
+    };
+
+    trigger.addEventListener("pointerenter", (e) => {
+      if ((e as PointerEvent).pointerType === "mouse") pull();
+    });
+    trigger.addEventListener("pointerleave", (e) => {
+      if ((e as PointerEvent).pointerType === "mouse") loosen();
+    });
+    trigger.addEventListener("focus", pull);
+    trigger.addEventListener("blur", loosen);
+  }
+</script>

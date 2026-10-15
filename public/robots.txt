@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anamariatarot-sigma.vercel.app/sitemap.xml

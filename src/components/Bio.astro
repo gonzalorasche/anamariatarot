@@ -1,0 +1,155 @@
+---
+const parrafos = [
+  "Nací en el otoño de 1956 y llevo en la sangre la fuerza de mis raíces italianas. Como tantas familias que llegaron a la Argentina, mi vida se construyó sobre el amor, el trabajo y el calor de un hogar donde crié a mis dos hijos.",
+  "Hace más de treinta años el Tarot llegó a mi vida en silencio. Lo que empezó como un refugio personal y un gesto de guía para mis amigas más íntimas se transformó con el tiempo en una búsqueda incansable de conocimiento.",
+  "Después de cientos de libros y decenas de formaciones entendí que este don ya no podía quedarse en la intimidad.",
+  "Hoy, con la calma que dan los años y el estudio, me abro al mundo para canalizar mensajes y ofrecer claridad a quienes, como yo alguna vez, buscan comprender lo que el destino tiene para decir.",
+];
+---
+
+<section class="bio" id="bio">
+  <div class="wrap inner">
+    <div class="aside" data-reveal>
+      <figure class="retrato">
+        <img src="/img/manto.png" alt="" width="1563" height="1042" loading="lazy" />
+      </figure>
+      <div class="dato">
+        <span class="n">+30</span>
+        <span class="t">años de estudio<br />y práctica</span>
+      </div>
+    </div>
+
+    <div class="texto" data-reveal style="--i: 1">
+      <p class="kicker">Quién lee las cartas</p>
+      <h2 class="display titulo">Ana María</h2>
+      <p class="lead">Hace treinta años que el Tarot me acompaña.</p>
+
+      <div class="cuerpo">
+        {parrafos.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bio {
+    padding-block: clamp(56px, 8vh, 120px);
+    border-top: 1px solid var(--line);
+  }
+
+  .inner {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(34px, 6vw, 86px);
+    align-items: start;
+  }
+
+  /* ---------- columna de imagen ---------- */
+  .aside { position: relative; }
+
+  .retrato {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 3 / 4;
+    /* techo atado al alto de la pantalla: sin esto, al crecer el ancho de la
+       columna la imagen crece con él y la sección deja de entrar de una. */
+    max-height: min(58vh, 540px);
+    background: var(--ink);
+  }
+
+  .retrato img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.92;
+  }
+
+  .retrato::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 45%, rgba(13, 10, 6, 0.55));
+  }
+
+  .dato {
+    position: absolute;
+    right: clamp(-10px, -1vw, 0px);
+    bottom: clamp(-18px, -2vw, -10px);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 22px;
+    background: var(--bone);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+
+  .dato .n {
+    font-family: var(--display);
+    font-size: clamp(26px, 3vw, 36px);
+    line-height: 1;
+    color: var(--gold);
+  }
+
+  .dato .t {
+    font-size: 11px;
+    line-height: 1.45;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* ---------- columna de texto ---------- */
+  .titulo {
+    font-size: clamp(40px, 5.4vw, 72px);
+    margin: clamp(14px, 1.8vw, 20px) 0 10px;
+  }
+
+  .lead {
+    font-family: var(--display);
+    font-size: clamp(19px, 2vw, 26px);
+    line-height: 1.3;
+    color: var(--gold);
+    margin-bottom: clamp(26px, 3vw, 38px);
+  }
+
+  .cuerpo {
+    display: grid;
+    gap: clamp(16px, 1.8vw, 22px);
+    max-width: 58ch;
+  }
+
+  .cuerpo p {
+    font-size: clamp(15px, 1.2vw, 16.5px);
+    line-height: 1.75;
+    color: var(--ink-soft);
+  }
+
+  .cuerpo p:nth-child(3) {
+    font-family: var(--display);
+    font-size: clamp(19px, 1.9vw, 24px);
+    line-height: 1.42;
+    color: var(--ink);
+    padding-left: clamp(16px, 1.8vw, 24px);
+    border-left: 1px solid var(--gold);
+  }
+
+  /* notebooks bajas: se achica el aire y el cuerpo para que la sección
+     siga entrando de una sin recortar nada */
+  @media (min-width: 881px) and (max-height: 820px) {
+    .retrato { max-height: 52vh; }
+    .titulo { font-size: clamp(36px, 4.2vw, 56px); }
+    .lead { margin-bottom: clamp(18px, 2vw, 24px); }
+    .cuerpo { gap: 14px; }
+    .cuerpo p { font-size: 15.5px; line-height: 1.68; }
+    .cuerpo p:nth-child(3) { font-size: clamp(18px, 1.7vw, 21px); line-height: 1.38; }
+  }
+
+  @media (max-width: 880px) {
+    .inner { grid-template-columns: 1fr; gap: 48px; }
+    .aside { max-width: 420px; }
+    .retrato { aspect-ratio: 4 / 3; }
+    .dato { right: 12px; bottom: -16px; }
+  }
+</style>

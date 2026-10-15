@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.vercel/
+*.log
+
+# config local del editor y bocetos de diseño descartados
+.claude/
+bocetos/

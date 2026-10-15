@@ -1,0 +1,178 @@
+---
+const anio = new Date().getFullYear();
+
+const links = [
+  { href: "#inicio", label: "Inicio" },
+  { href: "#bio", label: "Ana María" },
+  { href: "#consultas", label: "Consultas" },
+  { href: "#contacto", label: "Contacto" },
+];
+
+const instagram = "https://www.instagram.com/tarot.anamariatarot/";
+const brickell = "https://www.instagram.com/brickell.lab";
+---
+
+<footer class="pie">
+  <div class="wrap inner">
+    <div class="alto" data-reveal>
+      <a href="#inicio" class="marca" aria-label="Ana María Tarot, inicio">
+        <img src="/img/logo.png" alt="Ana María Tarot" width="813" height="159" loading="lazy" />
+      </a>
+
+      <nav class="links" aria-label="Pie de página">
+        {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+
+      <a class="ig" href={instagram} target="_blank" rel="noopener" aria-label="Instagram de Ana María Tarot">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
+    </div>
+
+    <div class="bajo">
+      <div class="legales">
+        <p>© {anio} Ana María Tarot. Todos los derechos reservados.</p>
+        <p class="aviso">
+          La interpretación de las cartas es una guía espiritual y no sustituye el consejo
+          profesional.
+        </p>
+      </div>
+
+      <a class="credito" href={brickell} target="_blank" rel="noopener">
+        <span>Diseñado por</span>
+        <img src="/img/logo_nav.png" alt="Brickell Lab" width="310" height="61" loading="lazy" />
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--ink);
+    color: var(--bone);
+    padding-block: clamp(50px, 7vh, 78px) clamp(28px, 4vh, 40px);
+    padding-bottom: max(clamp(28px, 4vh, 40px), env(safe-area-inset-bottom));
+  }
+
+  .alto {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding-bottom: clamp(30px, 4vw, 44px);
+    border-bottom: 1px solid rgba(244, 239, 230, 0.16);
+  }
+
+  .marca img { height: clamp(26px, 3vw, 34px); width: auto; }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(18px, 2.4vw, 36px);
+  }
+
+  .links a {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(244, 239, 230, 0.66);
+    transition: color 0.35s var(--ease);
+  }
+
+  .ig {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(244, 239, 230, 0.2);
+    border-radius: 50%;
+    color: rgba(244, 239, 230, 0.78);
+    transition: color 0.4s var(--ease), border-color 0.4s var(--ease),
+      background 0.4s var(--ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .links a:hover { color: var(--gold-light); }
+    .ig:hover {
+      color: var(--ink);
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+    }
+    .credito:hover img { opacity: 1; }
+  }
+
+  .bajo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: clamp(22px, 3vw, 30px);
+  }
+
+  .legales p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(244, 239, 230, 0.55);
+  }
+
+  .aviso { max-width: 52ch; margin-top: 4px; color: rgba(244, 239, 230, 0.38); }
+
+  .credito {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .credito span {
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(244, 239, 230, 0.42);
+  }
+
+  .credito img {
+    height: 17px;
+    width: auto;
+    opacity: 0.75;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  @media (max-width: 720px) {
+    /* en pantalla chica los enlaces van uno debajo del otro,
+       como un menú, separados por hairlines */
+    .alto {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(24px, 5vw, 32px);
+      padding-bottom: clamp(26px, 6vw, 36px);
+    }
+
+    .links {
+      order: 2;
+      width: 100%;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .links a {
+      width: 100%;
+      padding: 15px 0;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: rgba(244, 239, 230, 0.82);
+      border-top: 1px solid rgba(244, 239, 230, 0.12);
+    }
+
+    .links a:last-child { border-bottom: 1px solid rgba(244, 239, 230, 0.12); }
+
+    .ig { order: 3; }
+
+    .bajo { flex-direction: column; align-items: flex-start; gap: 26px; }
+  }
+</style>
